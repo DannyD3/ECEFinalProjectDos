@@ -9,7 +9,7 @@ Current Status:
 5. The only feature that still needs to be added to the setup phase of the script is an option to use a preloaded deck of cards. This will require a translation of the cards into the system that our script uses
 
 To-Do:
-1. Create a function to deal with matching cards to the centerline cards
+1. Create a function to deal with matching cards to the centerline cards (Need to have results for no match, number match, and number/color matches)
 2. Create a turn counter int and a turn function to carry out the main process of the game
 3. Create conditionals/checks that determine if game is over
 4. Create a scoring function
