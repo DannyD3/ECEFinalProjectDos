@@ -8,6 +8,14 @@ typedef struct card_s {
 	struct card_s* pt;
 } card;
 
+/*Possible Card Actions
+- draw
+- player1
+- player2
+- centerline
+- discard
+*/
+
 //Function Declarations
 void display(card thisCard);
 //int match() {} //This function needs to compare the centerline card value and color with the matched cards' sum and colors 

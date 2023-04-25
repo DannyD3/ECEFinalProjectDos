@@ -2,9 +2,13 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdbool.h>
+#include <time.h>
 #include "card.c"
 
 void createDeck(card deck[]);
+void shuffleDeck(card deck[]);
+void deal(card deck[]);
+void draw(card deck[], int player);
 
 int main(void) {
 
@@ -14,15 +18,38 @@ int main(void) {
 	//Gives each card a value, color, and pointer (I don't know what the action string is for yet)
 	createDeck(deck);
 
-	//Display deck to ensure everything is correct
+	//Display deck to ensure everything is correct (display() is defined in card.c)
+	for (int i = 0; i < 108; i++) {
+	//	display(deck[i]);
+	}
+
+	shuffleDeck(deck);
+
+	printf("SHUFFLED\n");
+
+	//Display deck to ensure deck is shuffled
+	for (int i = 0; i < 108; i++) {
+	//	display(deck[i]);
+	}
+
+	deal(deck);
+
+	printf("DEALT\n");
+
+	//Display deck to ensure players have hands
 	for (int i = 0; i < 108; i++) {
 		display(deck[i]);
 	}
 
+	/*END OF SETUP*/
+
+
 	return 0;
+
 }
 
 void createDeck(card deck[]) {
+
 	int start = 0;
 	int end = 24;
 
@@ -62,6 +89,8 @@ void createDeck(card deck[]) {
 			}
 			//Assign Pointer
 			deck[i].pt = &deck[i];
+			//Assign Action
+			strcpy(deck[i].action, "draw");
 		}
 		start += 24;
 		end += 24;
@@ -72,5 +101,57 @@ void createDeck(card deck[]) {
 	for (int i = start; i < end; i++) {
 		deck[i].value = 2;
 		strcpy(deck[i].color, "wild");
+		strcpy(deck[i].action, "draw");
 	}
+
+}
+
+void shuffleDeck(card deck[]) {
+
+	srand(time(NULL));   //Seed randomizer function
+	int rA;
+	int rB;
+	card tempCard;
+
+	//FOR loop swaps 1000 pairs of cards in the deck at random
+	for (int i = 0; i < 1000; i++) {
+		rA = rand() % 108;
+		rB = rand() % 108;
+
+		tempCard = deck[rA];
+		deck[rA] = deck[rB];
+		deck[rB] = tempCard;
+	}
+
+}
+
+void deal(card deck[]) {
+	int numCards = 7; //Number of cards dealt to each player in the beginning of the game
+
+	for (int i = 1; i <= numCards * 2; i++) {
+		if (i % 2 == 0) {
+			draw(deck, 2);
+		} else {
+			draw(deck, 1);
+		}
+	}
+
+	strcpy(deck[numCards * 2].action, "centerline");
+	strcpy(deck[numCards * 2 + 1].action, "centerline");
+
+}
+
+void draw(card deck[], int player) {
+
+	for (int i = 0; i < 108; i++) {
+		if (strcmp(deck[i].action, "draw") == 0) {
+			if (player == 1) {
+				strcpy(deck[i].action, "player1");
+			} else {
+				strcpy(deck[i].action, "player2");
+			}
+			break;
+		}
+	}
+
 }
